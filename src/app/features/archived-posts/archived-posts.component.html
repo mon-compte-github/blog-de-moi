@@ -1,0 +1,26 @@
+<div id="page-content" class="row">
+
+   <div id="primary" class="nine columns">
+
+      <app-article *ngFor="let p of posts" [post]="p"></app-article>
+
+   </div>
+
+   <div id="secondary" class="three columns end">
+
+      <aside id="sidebar">
+
+         <div *ngIf="archives" class="widget widget_categories">
+            <h5 class="widget-title">Archives</h5>
+            <ul class="link-list cf">
+               <li *ngFor="let pair of archives | mapToIterable">
+                  <a [routerLink]="['/archives', pair.key]">{{ pair.key }} - {{ pair.val }} articles</a>
+               </li>
+            </ul>
+         </div>
+
+      </aside>
+
+   </div> <!-- Secondary End-->
+
+</div>

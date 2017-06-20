@@ -1,3 +1,98 @@
-<h1>
-  {{title}}
-</h1>
+
+<!-- Header
+================================================== -->
+<header>
+
+   <div class="row">
+
+      <div class="twelve columns">
+
+         <nav id="nav-wrap">
+
+            <!-- désactivation temporaire en attendant de trouver comment se passer de :target ... ou de le faire fonctionner ;-)
+            <a class="mobile-btn" (click)="showMenu()" title="Show navigation">Afficher le menu</a>
+            <a class="mobile-btn" (click)="hideMenu()" title="Hide navigation">Masquer le menu</a>
+            -->
+
+            <ul id="nav" class="nav">
+               <li routerLinkActive="current"><a (click)="hideMenu()" routerLink="/recent">Récents</a></li>
+               <!--<li routerLinkActive="current"><a routerLink="/popular">Populaires</a></li>-->
+               <!--<li routerLinkActive="current"><a routerLink="/archives">Archives</a></li>-->
+               <!--<li routerLinkActive="current"><a routerLink="/contact">Contact</a></li>-->
+               <li routerLinkActive="current"><a (click)="hideMenu()" routerLink="/tell-me-why">Pourquoi ?</a></li>
+            </ul> <!-- end #nav -->
+
+         </nav> <!-- end #nav-wrap -->
+
+      </div>
+
+   </div>
+
+</header> <!-- Header End -->
+
+<!-- Page Title
+================================================== -->
+<div id="page-title">
+
+   <div class="row">
+
+      <div class="ten columns centered text-center">
+         <h1> Dans mon bureau <span> bleu </span> </h1>
+         <p>Dans mon bureau bleu, on y gère des projets, on y manage des équipes, on y invente des solutions et on les met en oeuvre, et le vendredi, on y met de la musique.</p>
+      </div>
+
+   </div>
+
+</div> <!-- Page Title End-->
+
+<!-- Content
+================================================== -->
+<div class="content-outer">
+   <router-outlet></router-outlet>
+</div>
+
+<!-- footer
+================================================== -->
+<footer>
+
+   <div class="row">
+
+      <div class="twelve columns">
+
+         <ul class="footer-nav">
+            <li><a routerLink="/recent">Récents</a></li> |
+            <!--<li><a routerLink="/popular">Populaires</a></li> |-->
+            <!--<li><a routerLink="/archives">Archives</a></li> | -->
+            <!--<li><a routerLink="/contact">Contact</a></li> -->
+            <li><a routerLink="/tell-me-why">Pourquoi ?</a></li>
+         </ul>
+
+
+         <ul class="footer-social">
+            <!--li><a href="#"><i class="fa fa-github"></i></a></li-->
+            <li><a href="articles/feed.xml"><i class="fa fa-rss"></i></a></li>
+            <li><a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp%3A%2F%2Fdmbb.fr%2Farticles%2Ffeed.xml'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-logo-black_2x.png' alt='follow us in feedly' width='28' height='28'></a></li>
+         </ul>
+         
+         <ul class="copyright">
+            <li>Modified Sparrow &copy;, originally designed by <a href="http://www.styleshout.com/">Styleshout</a></li>               
+         </ul>
+
+      </div>
+
+      <div id="go-top" style="display: block;"><a title="Back to Top" href="javascript:window.scrollTo(0,0);">Go To Top</a></div>
+
+   </div>
+
+</footer> <!-- Footer End-->
+
+<!-- Java Script
+================================================== -->
+<!--
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')</script>
+<script type="text/javascript" src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/jquery.flexslider.js"></script>
+<script src="js/doubletaptogo.js"></script>
+<script src="js/init.js"></script>
+-->

@@ -1,0 +1,44 @@
+<article class="post">
+
+   <div class="entry-header cf">
+
+      <h1><a [routerLink]="link()" [attr.title]="post.title">{{ post.title }}</a></h1>
+
+      <p class="post-meta">
+         Publié <time class="date" [attr.datetime]="post.published.toISOString()">{{ howManyDays(post.published) }}</time>
+         <span *ngIf="isFull()" class="categories"> // <a [routerLink]="['/categorized', post.category | kebabCase ]">{{ post.category }}</a> </span>
+      </p>
+
+   </div>
+
+   <div *ngIf="post.image" class="post-thumb">
+      <a href="{{unsplashUrl()}}" target="_blank" [attr.title]="post.title"><img class="webfeedsFeaturedVisual" [attr.src]="res(post.image + '.jpg')" alt="post-image" title="Image de l'article"></a><span *ngIf="post.image && isFull()"> Crédit photo : <em><a href="http://unsplash.com">http://unsplash.com</a></em> </span>
+   </div>
+
+   <!-- version réduite -->
+   <div *ngIf="!isFull()" class="post-content">
+      <markdown base="{{res()}}">{{ post.excerpt }}</markdown>
+      <a [routerLink]="link()">En savoir plus ...</a>
+   </div>
+
+   <!-- version complète -->
+   <div *ngIf="isFull()" class="post-content">
+
+      <h2>TL;DR</h2>
+      <p class="lead">{{ post.excerpt }}</p>
+      
+      <markdown base="{{res()}}" data="{{content}}">Chargement en cours ...</markdown>
+      
+      <p class="tags">
+        <span><i class="fa fa-tags"></i></span>
+        <a *ngFor="let t of post.tags" href="#" [routerLink]="['/tagged', t | kebabCase ]">{{ t }} </a>
+      </p>
+
+      <ul class="post-nav cf">
+         <li class="prev" *ngIf="post.previous"><a rel="prev" [routerLink]="link(post.previous)"><strong>Article précédent</strong> {{ post.previous.title }}</a></li>
+         <li class="next" *ngIf="post.next"><a rel="next" [routerLink]="link(post.next)"><strong>Article suivant</strong> {{ post.next.title }}</a></li>
+      </ul>
+
+   </div>
+
+</article>

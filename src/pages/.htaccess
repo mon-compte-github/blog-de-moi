@@ -1,0 +1,10 @@
+
+# One day for md
+<FilesMatch ".(md)$">
+Header set Cache-Control "max-age=86400, public"
+</FilesMatch>
+
+# One year for jpg
+<FilesMatch ".(jpg|jpeg)$">
+Header set Cache-Control "max-age=31536000, public"
+</FilesMatch>

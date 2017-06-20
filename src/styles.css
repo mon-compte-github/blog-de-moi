@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+
+/* OVERRIDES */
+
+button[disabled], button:disabled {
+   background: #cccccc;
+}
+
+ul { list-style: square inside; }
+
+table {
+	margin: 20px;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td,th {
+	padding: 0.25em;
+	border: solid 1px grey;
+}
+
+tbody tr:nth-child(odd) {
+	background: #eee;
+}

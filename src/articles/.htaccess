@@ -1,0 +1,10 @@
+
+# One hour for json and xml
+<FilesMatch ".(gz|json|xml)$">
+Header set Cache-Control "max-age=3600, public"
+</FilesMatch>
+
+# One year for md and jpg
+<FilesMatch ".(md|jpg|jpeg)$">
+Header set Cache-Control "max-age=31536000, public"
+</FilesMatch>

@@ -1,0 +1,73 @@
+<div id="page-content" class="row page">
+
+   <div id="primary" class="nine columns">
+
+      <section>
+
+        <h1>Hello world</h1>
+
+        <p class="lead">Vous avez une question, une remarque, une critique ou un compliment à me faire ? Utilisez
+        le formulaire ci-dessous. </p>
+
+        <div id="contact-form">
+
+            <!-- form -->
+            <form #theForm="ngForm" (ngSubmit)="onSubmit()" name="contactForm" id="contactForm" action="#">
+              <fieldset>
+
+                <div class="half">
+                  <label for="contactName">Nom <span class="required">*</span></label>
+                  <input [(ngModel)]="form.name" name="contactName" type="text" id="contactName" size="35" value="" required minlength="1" />
+                </div>
+
+                <div class="half pull-right">
+                  <label for="contactEmail">Email <span class="required">*</span></label>
+                  <input [(ngModel)]="form.email" name="contactEmail" type="email" id="contactEmail" size="35" value="" required />
+                </div>
+
+                <div>
+                  <label  for="contactMessage">Message <span class="required">*</span></label>
+                  <textarea [(ngModel)]="form.message" name="contactMessage" id="contactMessage" rows="15" cols="50" required ></textarea>
+                </div>
+
+                <div>
+                  <button [disabled]="form.disabled || !theForm.valid || !theForm.dirty" class="submit">Envoyer</button>
+                  <span id="image-loader">
+                     <img src="assets/images/loader.gif" alt="" />
+                  </span>
+                </div>
+
+              </fieldset>
+            </form> <!-- Form End -->
+
+            <!-- contact-warning -->
+            <div *ngIf="form.success === false" id="message-warning" style="display: block;"> 
+              Une erreur est suvenue lors de l'envoie, réessayez plus tard ... </div>
+            <!-- contact-success -->
+            <div *ngIf="form.success === true" id="message-success" style="display: block;">
+               <i class="icon-ok"></i>Votre message est parti, j'y réponds très vite ;-)<br />
+            </div>
+
+         </div>
+
+      </section> <!-- section end -->
+
+   </div>
+
+   <div id="secondary" class="three columns end">
+
+      <aside id="sidebar">
+         <div class="widget widget_text">
+            <h5 class="widget-title">A propos de moi</h5>
+            <div class="textwidget"><p>
+            <a href="#"><img width="64" height="64" class="pull-left" alt="sample-image" src="assets/images/avatar.png"></a>
+            La journée, je développe des applications de gestion
+            de la relation client. Et le soir, j'expérimente des
+            trucs pour les journées suivantes ;-) </p></div>
+        </div>
+
+      </aside>
+
+   </div> <!-- Secondary End-->
+
+</div>

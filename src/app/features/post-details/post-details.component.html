@@ -1,0 +1,7 @@
+<div id="page-content" class="row">
+    <!-- full width pour améliorer la lisibilité -->
+    <div id="primary" class="twelve columns">
+      <app-article *ngIf="post" [post]="post"></app-article>
+      <app-error [reason]="error"></app-error>
+    </div>
+</div>
