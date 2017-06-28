@@ -6,6 +6,7 @@ import { TellMeWhyRoutingModule } from './tell-me-why-routing.module';
 
 // shared
 import { SharedModule } from '../../shared/shared.module';
+import { StaticPageModule } from './../static-page/static-page.module'; 
 
 // pages
 import { TellMeWhyComponent } from './tell-me-why.component'; 
@@ -15,7 +16,7 @@ import { TellMeWhyComponent } from './tell-me-why.component';
 //
 
 @NgModule({
-  imports:      [ CommonModule, TellMeWhyRoutingModule, SharedModule ],
+  imports:      [ CommonModule, TellMeWhyRoutingModule, SharedModule, StaticPageModule ],
   declarations: [ TellMeWhyComponent ]
 })
 export class TellMeWhyModule { 

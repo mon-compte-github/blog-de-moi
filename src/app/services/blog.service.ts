@@ -106,18 +106,21 @@ export class BlogService {
 		}
 
 		let temp: { [name: string] : number } = {};
-
+		
 		const url = this.getDatastoreUrl('categories.json');
 		return this.http.get(url).toPromise()
-			.then(response => response.json() as { [name: string] : number })
-			.then(response => this.categories = response);
+			.then(response => response.json() as any[])
+			.then(items => {
+				items.forEach(item => { temp[item['cat']] = +item['nb'] });
+				return temp;
+			});
 	}
 
 	/**
 	 * TBD
 	 */ 
 	getRecentPosts(): Promise<PostSummary[]> {
-		return this.load('recent.json');
+		return this.load('/recent.json');
 	}
 
 	/**
@@ -133,14 +136,14 @@ export class BlogService {
 	 * TBD
 	 */ 
 	getCategorizedPosts(category: string): Promise<PostSummary[]> {
-		return this.load('categories/' + category + '.json');
+		return this.load('/categories/' + category + '.json');
 	}
 
 	/**
 	 * TBD
 	 */ 
 	getTaggedPosts(tag: string): Promise<PostSummary[]> {
-		return this.load('tags/' + tag + '.json');
+		return this.load('/tags/' + tag + '.json');
 	}
 
 	/**
@@ -202,7 +205,7 @@ export class BlogService {
 	 */
 	public getDatastoreUrl(filename: string): string {
 		// window.location.protocol !== 'https:'
-		return this.getBaseUrl() + `articles/${filename}`;
+		return this.getBaseUrl() + `/articles/${filename}`;
 	}
 
 	/**
@@ -212,7 +215,7 @@ export class BlogService {
 	 * @return L'url complète vers la ressource.
 	 */
 	public getPostResourceUrl(post: PostReference, ressource: string): string {
-		return this.getBaseUrl() + `articles/${this.yymmdd(post)}/${ressource}`;
+		return this.getBaseUrl() + `/articles/${this.yymmdd(post)}/${ressource}`;
 	}
 
 	/**

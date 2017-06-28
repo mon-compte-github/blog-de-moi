@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, AfterViewInit, Input } from '@angular/core';
 import { Injectable } from '@angular/core';
 
+import { environment } from '../../environments/environment';
+
 import * as marked from 'marked';
 
 declare var Prism: any;
@@ -40,7 +42,30 @@ export class MarkdownService {
 
     this.renderer = new marked.Renderer();
 
-    this.renderer.image = function (href, title, text) {
+    // surcharge du rendu des balises <a/> pour gérer les liens vers les billets
+    this.renderer.link = function(href: string, title: string, text: string) {
+      // lien de la forme « billet:2017-02-28 » ?
+      if(href && href.match(/billet:[0-9]{4}-[0-9]{2}-[0-9]{2}/)) {
+        let reference: string[] = href.substring(7).split('-');
+        let date = new Date(+reference[0], +reference[1]-1, +reference[2]);
+
+        // lien vers le futur ? si oui, on le transforme en texte brut
+        if(date.getTime() > Date.now()) {
+          return text;
+        }
+
+        // pour bien faire, on devrait aussi vérifier que
+        // la date fournie renvoie bien vers un billet valide ... 
+
+        // réécriture de l'url, ni vu ni connu ;-)
+        href = environment.baseUrl + '/published/' + reference[0] + '/' + reference[1] + '/' + reference[2];
+
+      }
+      return marked.Renderer.prototype.link.call(this, href, title, text);
+    }
+
+    // surcharge du rendu des images pour gérer une autre location que l'url courante
+    this.renderer.image = function(href: string, title: string, text: string) {
       // /!\ "this" is the renderer, not the angular component
       if(thiz.baseUrl != null) {
         if(thiz.absoluteUrl.test(href) === false) {
@@ -51,6 +76,7 @@ export class MarkdownService {
       return marked.Renderer.prototype.image.call(this, href, title, text);
     }
 
+    // surchage du rendu des listes
     this.renderer.listitem = function(text:string) {
       if (/^\s*\[[x ]\]\s*/.test(text)) {
       text = text

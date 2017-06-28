@@ -66,8 +66,8 @@ export class PostsListComponent implements OnInit {
 	    		return;
 	    	}
 
-	    	result.then(posts => this.posts = posts)
-				.catch(reason => this.error = reason);
+	    	result.then(posts => { console.log(posts); this.posts = posts; })
+				.catch(reason => { this.error = reason; console.error(reason); });
 	        
 	    });
 

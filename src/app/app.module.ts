@@ -17,6 +17,7 @@ import { PostDetailsModule } from './features/post-details/post-details.module';
 //import { ArchivedPostsModule } from './features/archived-posts/archived-posts.module';
 //import { ContactMeModule } from './features/contact-me/contact-me.module';
 import { ArticleModule } from './features/article/article.module';
+import { StaticPageModule } from './features/static-page/static-page.module';
 import { TellMeWhyModule } from './features/tell-me-why/tell-me-why.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -41,6 +42,7 @@ import { BlogService } from './services/blog.service';
     //ArchivedPostsModule,
     //ContactMeModule,
     ArticleModule,
+    StaticPageModule,
     TellMeWhyModule,
     SharedModule,
     // routes

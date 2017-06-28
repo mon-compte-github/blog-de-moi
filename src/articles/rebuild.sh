@@ -1,8 +1,15 @@
 #!/bin/bash
 
+# on utilise parfois la syntaxe <() qui est le process substitution
+# http://mywiki.wooledge.org/ProcessSubstitution
+
+
 # TODO supprimer les fichier gz dont la taille est supérieure aux fichiers initiaux
 # TODO gérer les mises à jour incrémentielles (est-ce vraiment utile ?)
 # TODO gérer la pagination quand on aura trop d'articles
+
+# maintenant ^^
+now=$(date +"%s")
 
 ##################################################################
 # Helpers
@@ -29,169 +36,82 @@ kebab_case() {
     echo $output
 }
 
-# concatène les chaînes contenus dans un tableau
-# en utilisant le premier argument comme séparateur
-array_join() {
-    local IFS="${1}"
-    shift
-    echo "$*"
-}
-
-# concatène plusieurs fichiers json en un seul
-json_concat() {
-    # récupération des paramètres
-    # - nom du fichier en sortie
-    # - liste des fichiers à concaténer
-    
-    output="${1}"
-    files="${2}"
-
-    temp_file=$(fichier_temp)
-
-    # extraction du premier article
-    first=${files[0]}
-    files=(${files[@]:1})
-
-    # création du fichier
-    echo '[' > "$temp_file"
-    cat $first >> "$temp_file"
-    for f in ${files[@]}; do
-	echo ',' >> "$temp_file"
-	cat $f >> "$temp_file"
-    done
-
-    echo ']' >> "$temp_file"
-
-    # création du fichier final, en normalisant les espaces
-    # et en supprimant les retours chariots (inutiles)
-    cat "$temp_file" | tr -d '\n' | sed -e 's/  */ /g' > $output
-
-    rm "$temp_file"
-}
-
 ##################################################################
 ## articles récents (les 10 derniers)
 ##################################################################
 
-counter=0
-files=()
-
-# récupération de la liste des fichiers de description
-# d'article, triés par ordre chrono inverse
-for f in $(ls */*/*/metas.json 2> /dev/null | sort -nr); do
-	# on ne garde que 10 entrées
-	[[ "$counter" -ge 10 ]] && return 1
-	counter=$((counter+1))
- 	files+=("$f")
-done
-
-if [ ${#files[@]} -eq 0 ]; then
-    echo "No articles found :'("
-    exit 1
-fi
-
-json_concat "recent.json" "${files[@]}"
+# on ne garde que les articles publiés
+./jq --slurp "[ .[] | select(.published | fromdate <= $now) ]" $( ls */*/*/metas.json 2> /dev/null | sort -nr | head -10 ) > recent.json
 
 ##################################################################
 ## par catégories
 ##################################################################
 
-
-# 1) d'abord créer le fichier d'index [{ catégorie : nombre },{...}]
-
-# on utilise la syntaxe <() qui est le process substitution
-# http://mywiki.wooledge.org/ProcessSubstitution
-
-lines=()
-categories=()
-
-while read -r count word
-do
-    categories+=("$word")
-    lines+=("{\"${word}\":$count}")
-done < <( cat */*/*/metas.json | ./jq --raw-output '.category // "sans catégorie"' | sort | uniq -c )
-
-result=$(array_join "," "${lines[@]}")
-
-/bin/echo -n "[$result]" > categories.json
-
-# 2) classement des articles dans les catégories
-
 # création du rép d'accueil (au cas où)
 mkdir "categories/" 2> /dev/null
 
-# pour chaque catégorie
-for categorie in "${categories[@]}"; do
+# 1) création du fichier d'index qui donne le nombre d'article par catégorie
 
-    files=()
-    # pour chaque fichier d'index
-    for f in $(ls */*/*/metas.json 2> /dev/null | sort -nr); do
+# l'argument --slurp crée un tableau avec tous les objets fournis en input
+# .[] itère sur tous les éléments du tableau nouvellement créé
+# select(.published | fromdate <= $now) écarte les billets du futur
+# le [ .. ] englobant le filtre crée un nouveau tableau avec
+# les éléments produits par le filtre -> on se retrouve donc avec
+# un tableau des articles publiés et uniquement eux
+# [ .[].category ] extrait les catégories dans un tableau
+# /!\ la catégorie ne doit pas être nulle ...
+# group_by regroupe les catégoriées identiques (mais n eles dédoublonne pas)
+# le dernier map reconstitue la structure finale (catégorie + nb d'articles) :
+# [
+#   {
+#     "cat": "le blog",
+#     "nb": 3
+#   },
+#   {
+#     "cat": "inclassable",
+#     "nb": 1
+#   }
+# ]
 
-	# TODO effecter la comparaion directement via jq avec select(.categorie='')
+./jq --compact-output --slurp "[ .[] | select(.published | fromdate <= $now) ] | [ .[].category ] | group_by(.) | map({"cat" : .[0], "nb" : length})" */*/*/metas.json > categories.json
 
-	# extraction de la catégorie	    
-	temp=$(./jq --raw-output '.category // "sans catégorie"' $f)
+# 2) agrégation des articles par catégorie
 
-	
-	# l'article est-il dans la catégorie actuelle ?
-	[ "$temp" == "$categorie" ] && files+=("$f")
-	
-        # TODO stopper l'itération si on a le compte d'articles	
-	
-    done
+# (re)lecture de la liste des catégories
+# précédemment extraites dans un tableau 
+# et pour chacune, agrégation de ses articles
+while read -r categorie
+do
 
     temp=$(kebab_case "$categorie")
-    json_concat "categories/$temp.json" "${files[@]}"
-    
-done
+
+    # filtrage des articles non publiés, agrégation dans un tableau et itération pour trouver les articles de la catégorie courante
+    ./jq --compact-output --slurp "[ .[] | select(.published | fromdate <= $now) ] | [ .[] | select(.category == \"$categorie\") ]" */*/*/metas.json > "categories/$temp.json"
+
+done < <( ./jq --raw-output ".[].cat" categories.json )
 
 ##################################################################
 ## par tags
 ##################################################################
 
-# 1) d'abord créer le fichier d'index [{ tag : nombre },{...}]
-
-lines=()
-tags=()
-
-while read -r count word
-do
-    tags+=("$word")
-    lines+=("{\"${word}\":$count}")
-done < <( cat */*/*/metas.json | ./jq --raw-output '.tags[]' | sort | uniq -c )
-
-result=$(array_join "," "${lines[@]}")
-
-/bin/echo -n "[$result]" > tags.json
-
-# 2) classement des articles dans les tags
-  
 # création du rép d'accueil (au cas où)
 mkdir "tags/" 2> /dev/null
 
-files=()
+# 1) création du fichier d'index qui donne le nombre d'article par tag
 
-# pour chaque tag
-for tag in "${tags[@]}"; do
+./jq --slurp "[ .[] | select(.published | fromdate <= $now) ] | [ .[].tags[] ] | group_by(.) | map({"tag" : .[0], "nb" : length})" */*/*/metas.json > tags.json
 
-    # pour chaque fichier d'index
-    for f in $(ls -d */*/*/metas.json 2> /dev/null | sort -nr); do
+# 2) agrégation des articles par tag
 
-	# l'article est-il rattaché au tag courant ?
-
-	match=$( ./jq --raw-output --arg tag "$tag" '.tags[] | select(. == $tag)'  "$f" )
-	
-	# si on a une correspondance, c'est que
-	# l'article contient le tag courant
-	[ -z "$match" ] || files+=("$f")
-
-        # TODO stopper l'itération si on a le compte d'articles                                                                                
-    done
+while read -r tag
+do
 
     temp=$(kebab_case "$tag")
-    json_concat "tags/$temp.json" "${files[@]}"
 
-done
+    ./jq --compact-output --slurp "[ .[] | select(.published | fromdate <= $now) ] | [ .[] | select(.tags | contains([\"$tag\"])) ]" */*/*/metas.json > "tags/$temp.json"
+
+done < <( ./jq --raw-output ".[].tag" tags.json )
+
 
 ##################################################################
 ## flux rss

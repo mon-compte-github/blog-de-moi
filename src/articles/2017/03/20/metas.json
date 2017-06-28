@@ -4,5 +4,6 @@
    "excerpt": "Dans cette série d'articles, je vais vous raconter comment j'ai développé mon blog maison avec Angular 2. Cette semaine, on commence par le visuel.",
    "image": "88IV5AtWjB8",
    "category": "le blog",
-   "tags": ["html5", "responsive design"]
+   "tags": ["html5", "responsive design"],
+   "multi": true
 }

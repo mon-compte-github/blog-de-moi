@@ -1,1 +1,22 @@
-[{"angular 2":2},{"dropbox":1},{"hello world":1},{"html5":1},{"json":1},{"responsive design":1}]
+[
+  {
+    "tag": "angular 2",
+    "nb": 1
+  },
+  {
+    "tag": "hello world",
+    "nb": 1
+  },
+  {
+    "tag": "html5",
+    "nb": 1
+  },
+  {
+    "tag": "json",
+    "nb": 1
+  },
+  {
+    "tag": "responsive design",
+    "nb": 1
+  }
+]

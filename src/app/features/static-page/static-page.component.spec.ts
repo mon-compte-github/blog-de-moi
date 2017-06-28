@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { TellMeWhyComponent } from './tell-me-why-me.component';
+import { StaticPageComponent } from './static-page.component';
 
 describe('ContactMeComponent', () => {
-  let component: TellMeWhyComponent;
-  let fixture: ComponentFixture<TellMeWhyComponent>;
+  let component: StaticPageComponent;
+  let fixture: ComponentFixture<StaticPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TellMeWhyComponent ]
+      declarations: [ StaticPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TellMeWhyComponent);
+    fixture = TestBed.createComponent(StaticPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

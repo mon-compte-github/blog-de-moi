@@ -4,5 +4,6 @@
    "excerpt": "Dans cette série d'articles, je vais vous raconter comment j'ai développé mon blog maison avec Angular 2. Cette semaine, on continue avec le stockage des articles.",
    "image": "JuFcQxgCXwA",
    "category": "le blog",
-   "tags": ["json"]
+   "tags": ["json"],
+   "multi": true
 }

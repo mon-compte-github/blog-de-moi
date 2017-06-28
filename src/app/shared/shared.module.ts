@@ -44,13 +44,11 @@ export class KebabCasePipe implements PipeTransform {
 
 @Pipe({ name: 'mapToIterable' })
 export class MapToIterablePipe  implements PipeTransform {
-  transform(dict: any[]): any[] {
+  transform(dict: any): any[] {
     var a = [];
-    dict.forEach(element => 
-      Object.keys(element).forEach((value, index) => {
-        a.push({key: value, val: element[value]});
-      })
-    );
+    Object.keys(dict).forEach((value, index) => {
+      a.push({key: value, val: dict[value]});
+    })
     return a;
   }
 }

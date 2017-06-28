@@ -7,15 +7,7 @@
     <generator>bash + jq ;-)</generator>
     <atom:link href="http://dmbb.fr/articles/feed.xml" rel="self" type="application/rss+xml" />
     <description>Dans mon bureau bleu, on y gère des projets, on y manage des équipes, on y invente des solutions et on les met en oeuvre, et le vendredi, on y met de la musique.</description>
-    <pubDate>Fri, 16 Jun 2017 21:19:11 +0200</pubDate>
-<item>
-<title>Interagir avec DropBox depuis une application Angular 2</title>
-<link>http://www.dmbb.fr/published/2017/06/30</link>
-<guid isPermaLink="true">http://www.dmbb.fr/published/2017/06/30</guid>
-<description><![CDATA[<img class="webfeedsFeaturedVisual" src="http://www.dmbb.fr/articles/2017/06/30/JuFcQxgCXwA.jpg" alt="post-image" title="Image de l'article">Pour me faire la main sur Angular 2, je me suis fait une petite application de suivi de mes dépenses. Un service, quelques composants, une ou deux directives et j'ai une version opérationnelle à un détail près : le stockage des données. Pour faire simple, j'ai utilisé une base IndexedDB directement dans le navigateur. Ca marche bien mais si on vide le cache, on perd tout. J'ai donc complété ce système avec une sauvegarde fichier. Google drive, Fiebase, Amazon EC2, ... les solutions sont désormais nombreuses pour héberger ses données dans le cloud. Pour cette fois, j'ai choisi DropBox ...]]></description>
-<pubDate>Fri, 30 Jun 2017 18:42:54 +0100</pubDate>
-<category>développement web</category>
-</item>
+    <pubDate>Tue, 27 Jun 2017 20:58:40 +0200</pubDate>
 <item>
 <title>Les coulisses du blog (2/?)</title>
 <link>http://www.dmbb.fr/published/2017/06/16</link>
@@ -46,6 +38,7 @@
 <guid isPermaLink="true">http://www.dmbb.fr/published/2017/02/28</guid>
 <description><![CDATA[<img class="webfeedsFeaturedVisual" src="http://www.dmbb.fr/articles/2017/02/28/rRJ0aA6AIpQ.jpg" alt="post-image" title="Image de l'article">Mi-2015, j'ai choisi de résilier mon hébérgement web chez 1&1 suite à l'augmentation prohibitive de leurs tarifs. En attendant de trouver une alternative, j'ai dit adieu à mon modeste blog « propulsé par Dotclear ». Mais il y a quelques mois, l'envie d'écrire est revenue :-)]]></description>
 <pubDate>Tue, 28 Feb 2017 18:51:34 +0100</pubDate>
+<category>inclassable</category>
 </item>
 </channel>
 </rss>
