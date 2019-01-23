@@ -7,7 +7,15 @@
     <generator>bash + jq ;-)</generator>
     <atom:link href="http://dmbb.fr/articles/feed.xml" rel="self" type="application/rss+xml" />
     <description>Dans mon bureau bleu, on y gère des projets, on y manage des équipes, on y invente des solutions et on les met en oeuvre, et le vendredi, on y met de la musique.</description>
-    <pubDate>Tue, 27 Jun 2017 20:58:40 +0200</pubDate>
+    <pubDate>Sun, 06 Aug 2017 21:00:34 +0200</pubDate>
+<item>
+<title>Interagir avec DropBox depuis une application Angular 2</title>
+<link>http://www.dmbb.fr/published/2017/08/06</link>
+<guid isPermaLink="true">http://www.dmbb.fr/published/2017/08/06</guid>
+<description><![CDATA[<img class="webfeedsFeaturedVisual" src="http://www.dmbb.fr/articles/2017/08/06/h6xNSDlgciU.jpg" alt="post-image" title="Image de l'article">Pour me faire la main sur Angular 2, je me suis fait une petite application de suivi de mes dépenses. Un service, quelques composants, une ou deux directives et c'est dans la boîte. Pour le stockage des données, j'ai opté pour une base IndexedDB : ça marche plutôt bien mais c'est quelque peu "volatile". J'ai donc complété ce système local avec une sauvegarde « dans le cloud » ;-).]]></description>
+<pubDate>Sun, 06 Aug 2017 18:39:42 +0100</pubDate>
+<category>développement web</category>
+</item>
 <item>
 <title>Les coulisses du blog (2/?)</title>
 <link>http://www.dmbb.fr/published/2017/06/16</link>
